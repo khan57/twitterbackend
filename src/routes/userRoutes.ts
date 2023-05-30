@@ -26,16 +26,19 @@ router.post("/", async (req: Request, res: Response) => {
 
 router.get("/", async (req: Request, res: Response) => {
   const allUsers = await prisma.user.findMany();
-  return res.json( allUsers );
+  return res.json(allUsers);
 });
 
 router.get("/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
-  const user = await prisma.user.findUnique({ where: { id: Number(id) },include:{tweets:true} });
-  if(!user){
-    return res.status(404).json({error:"User not found"})
+  const user = await prisma.user.findUnique({
+    where: { id: Number(id) },
+    include: { tweets: true },
+  });
+  if (!user) {
+    return res.status(404).json({ error: "User not found" });
   }
-  return res.json( user );
+  return res.json(user);
 });
 
 router.put("/:id", async (req: Request, res: Response) => {
@@ -63,7 +66,7 @@ router.delete("/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
 
   await prisma.user.delete({ where: { id: Number(id) } });
-  return res.status(200).send({ msg:"user deleted successfully" });
+  return res.status(200).send({ msg: "user deleted successfully" });
 });
 
 export default router;
