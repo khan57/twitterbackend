@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 
 const EMAIL_TOKEN_EXPIRATION_TIME = 10;
 const AUTHENTICATION_EXPIRATION_HOURS = 12;
-const JWT_SECRET = "supersecret";
+const JWT_SECRET = process.env.JWT_SECRET || 'SUPER SECRET';
 
 // generate a random 8 digit number as the email token
 function generateEmailToken(): string {
