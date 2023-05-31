@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import { authenticateToken } from "../middlewares/authMiddleware";
 
 const router = Router();
 const prisma = new PrismaClient();
@@ -9,10 +10,14 @@ const prisma = new PrismaClient();
 router.post("/", async (req: Request, res: Response) => {
   try {
     const { content, userId } = req.body;
+   
+    // @ts-ignore
+    const user = req.user
+
     const result = await prisma.tweet.create({
       data: {
         content,
-        userId,
+        userId:user.id,
       },
     });
 
@@ -42,7 +47,10 @@ router.get("/", async (req: Request, res: Response) => {
 
 router.get("/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
-  const tweet = await prisma.tweet.findUnique({ where: { id: Number(id) },include:{user:true} });
+  const tweet = await prisma.tweet.findUnique({
+    where: { id: Number(id) },
+    include: { user: true },
+  });
   if (!tweet) {
     return res.status(404).json({ error: "Tweet not found" });
   }
