@@ -19,9 +19,10 @@ router.post("/", async (req: Request, res: Response) => {
         content,
         userId:user.id,
       },
+      include:{user:true}
     });
 
-    return res.status(201).send(result);
+    return res.status(200).send(result);
   } catch (error) {
     return res
       .status(400)

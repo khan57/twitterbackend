@@ -43,4 +43,4 @@ export async function sendEmailToken(email: string, token: string) {
 }
 
 
-sendEmailToken("haseeb@yahoo.com","124")
+// sendEmailToken("haseeb@yahoo.com","124")
